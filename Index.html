@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Geo Finder</title>
+<style>
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #101827;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+.container {
+  width: 85%;
+  max-width: 350px;
+  padding: 28px;
+  text-align: center;
+  background: #1e293b;
+  border-radius: 20px;
+}
+h1 { color: #38bdf8; }
+p { line-height: 1.6; color: #cbd5e1; }
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 12px;
+  border: 0;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.allow { background: #16a34a; color: white; }
+.deny { background: #475569; color: white; }
+#result { overflow-wrap: anywhere; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Thank You! ❤️</h1>
+  <p>Thanks for visiting.<br>Have a wonderful day!</p>
+  <h3>Would you like to share your location? 📍</h3>
+  <p>Your location will only be shared with your permission.</p>
+
+  <button class="allow" onclick="shareLocation()">
+    Allow Location
+  </button>
+  <button class="deny" onclick="decline()">
+    Don't Allow
+  </button>
+  <p id="result"></p>
+</div>
+
+<script>
+function shareLocation() {
+  const result = document.getElementById("result");
+
+  if (!navigator.geolocation) {
+    result.textContent = "Location is not supported.";
+    return;
+  }
+
+  result.textContent = "Waiting for your permission...";
+
+  navigator.geolocation.getCurrentPosition(
+    function(position) {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+
+      result.innerHTML =
+        "Location shared with your permission!<br>" +
+        '<a style="color:#38bdf8" target="_blank" rel="noopener" href="https://www.google.com/maps?q=' +
+        lat + ',' + lon + '">View on Google Maps</a>';
+    },
+    function() {
+      result.textContent =
+        "Location permission was not granted.";
+    }
+  );
+}
+
+function decline() {
+  document.getElementById("result").textContent =
+    "No problem! Thanks for visiting. Goodbye! 👋";
+}
+</script>
+</body>
+</html>
